@@ -65,19 +65,20 @@ fn main() {
         .author(crate_authors!())
         .arg(
             Arg::with_name("image")
-                .help("set the location of dmg image, use srcfolder and local Location")
+                .help("the image to be created. Use the folder name and local Location if not set")
                 .takes_value(true)
                 .short("i")
                 .long("image")
         )
         .arg(
             Arg::with_name("srcfolder")
-                .help("the source folder to use")
+                .help("the source directory, copies file-by-file the contents of source into
+                           image")
                 .required(true)
         )
         .arg(
             Arg::with_name("volname")
-                .help("set the Volume name, use Untitle if not set")
+                .help("the newly-created filesystem will be named volname. Use the folder name if not set")
                 .takes_value(true)
                 .short("v")
                 .long("volname")

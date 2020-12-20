@@ -3,7 +3,8 @@ name = "foldertodmg"
 version = "0.1.0"
 authors = ["Samuel Marcaille"]
 edition = "2018"
-description = "foldertodmg is a personnal helper on hdiutil"
+license = "MIT"
+description = "foldertodmg is a personnal helper to create image from directory"
 homepage = "https://github.com/deild/foldertodmg"
 repository = "https://github.com/deild/foldertodmg"
 
