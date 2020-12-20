@@ -1,0 +1,15 @@
+[package]
+name = "foldertodmg"
+version = "0.1.0"
+authors = ["Samuel Marcaille"]
+edition = "2018"
+description = "foldertodmg is a personnal helper on hdiutil"
+homepage = "https://github.com/deild/foldertodmg"
+repository = "https://github.com/deild/foldertodmg"
+
+[dependencies]
+
+[dependencies.clap]
+version = "2.33.0"
+default-features = false
+features = ["suggestions"]
