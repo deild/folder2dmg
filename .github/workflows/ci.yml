@@ -1,0 +1,25 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Info
+          shell: zsh
+          run: |
+            rustup -V
+            rustup toolchain list
+            rustup default
+            cargo -V
+            rustc -V
+            hdiutil info -s
+      - name: Build
+        run: cargo build --verbose
+      - name: Run tests
+        run: cargo tests --verbose

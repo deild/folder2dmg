@@ -14,3 +14,7 @@ repository = "https://github.com/deild/foldertodmg"
 version = "2.33.0"
 default-features = false
 features = ["suggestions"]
+
+[dev-dependencies]
+assert_cmd = "1.0.2"
+predicates = "1.0.5"
