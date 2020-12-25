@@ -13,7 +13,7 @@ use predicates::prelude::*;
 #[test]
 fn when_run_with_option_help_then_display_usage_with_success() -> Result<(), Box<dyn std::error::Error>> {
     //Given
-    let expected = "foldertodmg 0.1.3
+    let expected = "foldertodmg 0.1.4-alpha.0
 Samuel Marcaille
 foldertodmg is a personnal helper to create image from directory
 

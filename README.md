@@ -3,7 +3,7 @@
 Usage:
 
 ```bash
-foldertodmg 0.1.3
+foldertodmg 0.1.4-alpha.0
 Samuel Marcaille
 foldertodmg is a personnal helper to create image from directory
 
