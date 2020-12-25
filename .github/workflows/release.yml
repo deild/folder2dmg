@@ -16,8 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install cargo-release
-        run: cargo install cargo-release
+        run: cargo install -q cargo-release
       - name: Release fordertodmg
         env:
           GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
-        run: cargo release --no-confirm ${{ github.event.inputs.levelOrVersion }}
+        run: |
+          git config --global user.name tolva
+          git config --global user.email 8457875+deild@users.noreply.github.com
+          cargo release --no-confirm ${{ github.event.inputs.levelOrVersion }}
