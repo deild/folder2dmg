@@ -20,4 +20,4 @@ jobs:
       - name: Release fordertodmg
         env:
           GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
-        run: cargo release ${{ github.event.inputs.levelOrVersion }}
+        run: cargo release --no-confirm ${{ github.event.inputs.levelOrVersion }}
