@@ -1,23 +1,23 @@
-name: Create Release
+name: Create Release from Github Action
 on:
-  push:
-    # Sequence of patterns matched against refs/tags
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+  workflow_dispatch:
+    inputs:
+      levelOrVersion:
+        description: 'Release level or version: bumping specified version field or remove prerelease extensions
+by default. Possible level value: major, minor, patch, release, rc, beta, alpha or any
+valid semver version that is greater than current version'
+        required: true
+        default: 'release'
 jobs:
-  build:
+  createRelease:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Install cargo-release
+        run: cargo install cargo-release
+      - name: Release fordertodmg
         env:
           GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+        run: cargo release ${{ github.event.inputs.levelOrVersion }}

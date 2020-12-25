@@ -18,3 +18,18 @@ features = ["suggestions"]
 [dev-dependencies]
 assert_cmd = "1.0.2"
 predicates = "1.0.5"
+
+[package.metadata.release]
+disable-publish = true
+#no-dev-version = true
+tag-message = "Release {{crate_name}} version {{version}}"
+pre-release-commit-message = "Release version {{version}}"
+pre-release-replacements = [
+    {file="README.md", search="foldertodmg [a-z0-9\\.-]+\\n", replace="foldertodmg {{version}}\n"} ,
+    {file ="tests/main.rs", search="foldertodmg [a-z0-9\\.-]+\\n", replace="foldertodmg {{version}}\n"},
+]
+post-release-commit-message = "Start next development iteration {{next_version}}"
+post-release-replacements = [
+    {file="README.md", search="foldertodmg [a-z0-9\\.-]+\\n", replace="foldertodmg {{next_version}}\n"} ,
+    {file ="tests/main.rs", search="foldertodmg [a-z0-9\\.-]+\\n", replace="foldertodmg {{next_version}}\n"},
+]
