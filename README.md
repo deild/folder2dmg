@@ -12,6 +12,7 @@ USAGE:
 
 FLAGS:
     -d, --debug      turn on debugging information
+    -e, --erase      delete the srcfolder after created the image
     -h, --help       Prints help information
     -V, --version    Prints version information
 
