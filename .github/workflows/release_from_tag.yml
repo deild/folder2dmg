@@ -4,41 +4,26 @@ on:
     tags:
       - '**'
 jobs:
-  once:
-    name: Create Release
+  build:
+    name: Upload binaries on Release
+    needs: once
     runs-on: macos-latest
-    outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
+      ARCHIVE_NAME: ${{ github.event.repository.name }}-macos-${{ github.event.release.tag_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-  build:
-    name: Upload binaries on Release
-    needs: once
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        include:
-          - os: macos-11.0
-            link: macos-11
-          - os: macos-10.15
-            link: macos-10.15
-    env:
-      GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
-      ARCHIVE_NAME: ${{ github.event.repository.name }}-${{ matrix.link }}-${{ github.event.release.tag_name }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+          id: create_release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
+          with:
+            tag_name: ${{ github.ref }}
+            release_name: Release ${{ github.ref }}
+            draft: false
+            prerelease: false
       - name: Build project
         run: cargo build --release
       - name: Create Archive
@@ -50,7 +35,7 @@ jobs:
         id: upload-binary
         uses: actions/upload-release-asset@v1
         with:
-          upload_url: ${{ needs.once.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ env.ARCHIVE_NAME }}.tar.gz
           asset_name: ${{ env.ARCHIVE_NAME }}.tar.gz
           asset_content_type: application/tar+gzip

@@ -23,3 +23,8 @@ jobs:
         run: cargo install -q cargo-release
       - name: Release crate
         run: cargo release --no-confirm ${{ github.event.inputs.levelOrVersion }}
+      - id: last
+          uses: pozetroninc/github-action-get-latest-release@master
+          with:
+            repository: ${{ github.repository }}
+      - run: echo ${{ steps.last.outputs.release }}
