@@ -26,9 +26,9 @@ jobs:
         run: cargo release --no-confirm ${{ github.event.inputs.levelOrVersion }}
       - name: Get Previous tag
         uses: oprypin/find-latest-tag@v1
+        id: latest
         with:
           repository: ${{ github.repository }}
-          id: latest
       - name: Publish Github Release
         id: create_release
         uses: actions/create-release@v1
