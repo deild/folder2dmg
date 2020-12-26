@@ -1,0 +1,31 @@
+name: Test
+on:
+  workflow_dispatch:
+    inputs:
+      levelOrVersion:
+        description: 'Possible level value: major, minor, patch, release, rc, beta, alpha or any valid semver version that is greater than current version'
+        required: true
+        default: 'release'
+jobs:
+  createRelease:
+    name: Release
+    runs-on: macos-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Initialize mandatory git config  
+        run: |
+          git config user.name tolva
+          git config user.email 8457875+deild@users.noreply.github.com
+      - name: Get Previous tag 1
+        id: previoustag
+        uses: WyriHaximus/github-action-get-previous-tag@master
+      - run: echo ${{ steps.previoustag.outputs.tag }}
+      - name: Get Previous tag 2
+        id: last
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: ${{ github.repository }}
+      - run: echo ${{ steps.last.outputs.release }}
