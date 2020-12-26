@@ -58,8 +58,6 @@ jobs:
       - name: Upload SHA256 Checksum
         id: upload-sha256
         uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
         with:
           upload_url: ${{ needs.once.outputs.upload_url }}
           asset_path: ${{ env.ARCHIVE_NAME }}-sha256-checksum.txt
