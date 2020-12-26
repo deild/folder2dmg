@@ -1,6 +1,6 @@
 [package]
 name = "folder2dmg"
-version = "0.1.4-alpha.8"
+version = "0.1.4"
 authors = ["Samuel Marcaille"]
 edition = "2018"
 license = "MIT"
