@@ -3,9 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       levelOrVersion:
-        description: 'Release level or version: bumping specified version field or remove prerelease extensions
-by default. Possible level value: major, minor, patch, release, rc, beta, alpha or any
-valid semver version that is greater than current version'
+        description: 'Possible level value: major, minor, patch, release, rc, beta, alpha or any valid semver version that is greater than current version'
         required: true
         default: 'release'
 jobs:
@@ -15,7 +13,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      – name: Initialize mandatory git config
+      - name: Initialize mandatory git config  
         run: |
           git config user.name tolva
           git config user.email 8457875+deild@users.noreply.github.com
