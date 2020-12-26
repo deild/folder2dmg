@@ -15,7 +15,11 @@ jobs:
           cargo -V
           rustc -V
           hdiutil info -s
+      - name: Install cargo-outdated
+        run: cargo install -q cargo-outdated
       - name: Build
         run: cargo build --verbose
       - name: Run tests
         run: cargo test --verbose
+      - name: Run outdated
+        run: cargo outdated
