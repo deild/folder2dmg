@@ -31,14 +31,12 @@ jobs:
       matrix:
         include:
           - os: macos-11.0
-              env:
-                - LINK: macos-11
+            link: macos-11
           - os: macos-10.15
-              env:
-                - LINK: macos-10.15
+            link: macos-10.15
     env:
       GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
-      ARCHIVE_NAME: ${{ github.event.repository.name }}-${{ matrix.LINK }}-${{ github.event.release.tag_name }}
+      ARCHIVE_NAME: ${{ github.event.repository.name }}-${{ matrix.link }}-${{ github.event.release.tag_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
