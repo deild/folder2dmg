@@ -20,12 +20,14 @@ fn run(matches: ArgMatches) {
     io::stderr().write_all(&output.stderr).unwrap();
     if erase {
         let output_rm= Command::new("rm")
-            .args(&["-vf", src_folder])
+            .args(&["-rvf", src_folder])
             .output()
             .expect("failed to execute rm");
         io::stdout().write_all(&output_rm.stdout).unwrap();
         io::stderr().write_all(&output_rm.stderr).unwrap();
     }
+
+
     assert!(output.status.success());
     // hdiutil create -volname "$dest" -srcfolder "./$dirsrc" -ov -format UDBZ -nospotlight "${dest}.dmg"
 }

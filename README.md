@@ -1,14 +1,14 @@
-# foldertodmg
+# folder2dmg
 
 Usage:
 
 ```bash
-foldertodmg 0.1.4-alpha.0
+folder2dmg 0.1.4-alpha.0
 Samuel Marcaille
-foldertodmg is a personnal helper to create image from directory
+folder2dmg is a personnal helper to create image from directory
 
 USAGE:
-    foldertodmg [FLAGS] [OPTIONS] <srcfolder>
+    folder2dmg [FLAGS] [OPTIONS] <srcfolder>
 
 FLAGS:
     -d, --debug      turn on debugging information

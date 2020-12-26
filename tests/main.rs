@@ -6,6 +6,7 @@ use assert_cmd::prelude::*;
 // Add methods on commands
 use predicates::prelude::*;
 
+static PROGRAM: &str = "folder2dmg";
 // Run programs
 
 //Given_Preconditions_When_StateUnderTest_Then_ExpectedBehavior
@@ -13,12 +14,12 @@ use predicates::prelude::*;
 #[test]
 fn when_run_with_option_help_then_display_usage_with_success() -> Result<(), Box<dyn std::error::Error>> {
     //Given
-    let expected = "foldertodmg 0.1.4-alpha.0
+    let expected = "folder2dmg 0.1.4-alpha.0
 Samuel Marcaille
-foldertodmg is a personnal helper to create image from directory
+folder2dmg is a personnal helper to create image from directory
 
 USAGE:
-    foldertodmg [FLAGS] [OPTIONS] <srcfolder>
+    folder2dmg [FLAGS] [OPTIONS] <srcfolder>
 
 FLAGS:
     -d, --debug      turn on debugging information
@@ -35,7 +36,7 @@ ARGS:
                                               image
 ";
     //When
-    let mut cmd = Command::cargo_bin("foldertodmg")?;
+    let mut cmd = Command::cargo_bin(PROGRAM)?;
     cmd.arg("--help");
     //Then
     cmd.assert()
@@ -51,12 +52,12 @@ fn when_run_without_options_then_display_usage_and_failure() -> Result<(), Box<d
     <srcfolder>
 
 USAGE:
-    foldertodmg [FLAGS] [OPTIONS] <srcfolder>
+    folder2dmg [FLAGS] [OPTIONS] <srcfolder>
 
 For more information try --help
 ";
     //When
-    let mut cmd = Command::cargo_bin("foldertodmg")?;
+    let mut cmd = Command::cargo_bin(PROGRAM)?;
     //Then
     cmd.assert()
         .failure()
@@ -65,30 +66,28 @@ For more information try --help
 }
 
 #[test]
-fn given_srcfolder_when_run_with_erase_then_success() -> Result<(), Box<dyn std::error::Error>> {
+fn given_srcfolder_and_image_when_erase_then_success() -> Result<(), Box<dyn std::error::Error>> {
     //Given
     let current_path = env::current_dir()?;
     let src = "tests/folders/erase";
-    let expected = format!("created: {}/tests/output/image.dmg
-", current_path.display());
+    let image = "tests/output/image.dmg";
+    let expected = format!("created: {}/{}
+removed directory '{}'
+", current_path.display(), image, src);
     Command::new("mkdir")
         .args(&["-p", src])
         .output()
         .expect("failed to execute mkdir");
     //When
-    let mut cmd = Command::cargo_bin("foldertodmg")?;
+    let mut cmd = Command::cargo_bin(PROGRAM)?;
     cmd.arg("--erase")
-        .arg("-i").arg("tests/output/image.dmg")
+        .arg("-i").arg(image)
         .arg(src);
 
     //Then
     cmd.assert()
         .success()
         .stdout(predicate::str::similar(expected));
-    Command::new("rm")
-        .args(&["test/image.dmg"])
-        .output()
-        .expect("failed to execute rm");
     Ok(())
 }
 
@@ -96,11 +95,11 @@ fn given_srcfolder_when_run_with_erase_then_success() -> Result<(), Box<dyn std:
 fn given_folder_when_dont_exist_then_failure() -> Result<(), Box<dyn std::error::Error>> {
     //Given
     let src = "tests/folders/notexist";
-    let expected = "thread 'main' panicked at 'tests/folders/notexist doesn't exist', src/main.rs:54:9
+    let expected = "thread 'main' panicked at 'tests/folders/notexist doesn't exist', src/main.rs:56:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ";
     //When
-    let mut cmd = Command::cargo_bin("foldertodmg")?;
+    let mut cmd = Command::cargo_bin(PROGRAM)?;
     cmd.arg(src);
     //Then
     cmd.assert()

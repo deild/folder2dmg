@@ -1,4 +1,4 @@
-name: Create Release from Github Action
+name: Release from Github Action
 on:
   workflow_dispatch:
     inputs:
@@ -10,17 +10,19 @@ valid semver version that is greater than current version'
         default: 'release'
 jobs:
   createRelease:
-    name: Create Release
+    name: Release
     runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      – name: Initialize mandatory git config
+        run: |
+          git config user.name tolva
+          git config user.email 8457875+deild@users.noreply.github.com
       - name: Install cargo-release
         run: cargo install -q cargo-release
       - name: Release fordertodmg
         env:
           GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
         run: |
-          git config --global user.name tolva
-          git config --global user.email 8457875+deild@users.noreply.github.com
           cargo release --no-confirm ${{ github.event.inputs.levelOrVersion }}

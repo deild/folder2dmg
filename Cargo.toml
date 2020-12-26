@@ -1,12 +1,12 @@
 [package]
-name = "foldertodmg"
+name = "folder2dmg"
 version = "0.1.4-alpha.0"
 authors = ["Samuel Marcaille"]
 edition = "2018"
 license = "MIT"
-description = "foldertodmg is a personnal helper to create image from directory"
-homepage = "https://github.com/deild/foldertodmg"
-repository = "https://github.com/deild/foldertodmg"
+description = "folder2dmg is a personnal helper to create image from directory"
+homepage = "https://github.com/deild/folder2dmg"
+repository = "https://github.com/deild/folder2dmg"
 
 [dependencies]
 
@@ -25,11 +25,11 @@ disable-publish = true
 tag-message = "Release {{crate_name}} version {{version}}"
 pre-release-commit-message = "Release version {{version}}"
 pre-release-replacements = [
-    {file="README.md", search="foldertodmg [a-z0-9\\.-]+\\n", replace="foldertodmg {{version}}\n", prerelease=true} ,
-    {file ="tests/main.rs", search="foldertodmg [a-z0-9\\.-]+\\n", replace="foldertodmg {{version}}\n", prerelease=true},
+    {file="README.md", search="folder2dmg [a-z0-9\\.-]+\\n", replace="folder2dmg {{version}}\n", prerelease=true} ,
+    {file ="tests/main.rs", search="folder2dmg [a-z0-9\\.-]+\\n", replace="folder2dmg {{version}}\n", prerelease=true},
 ]
 post-release-commit-message = "Start next development iteration {{next_version}}"
 post-release-replacements = [
-    {file="README.md", search="foldertodmg [a-z0-9\\.-]+\\n", replace="foldertodmg {{next_version}}\n", prerelease=true} ,
-    {file ="tests/main.rs", search="foldertodmg [a-z0-9\\.-]+\\n", replace="foldertodmg {{next_version}}\n", prerelease=true},
+    {file="README.md", search="folder2dmg [a-z0-9\\.-]+\\n", replace="folder2dmg {{next_version}}\n", prerelease=true} ,
+    {file ="tests/main.rs", search="folder2dmg [a-z0-9\\.-]+\\n", replace="folder2dmg {{next_version}}\n", prerelease=true},
 ]
