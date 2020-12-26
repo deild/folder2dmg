@@ -23,6 +23,7 @@ fn run(matches: ArgMatches) {
             .args(&["-rvf", src_folder])
             .output()
             .expect("failed to execute rm");
+        io::stdout().write_all("removed ".as_bytes()).unwrap();
         io::stdout().write_all(&output_rm.stdout).unwrap();
         io::stderr().write_all(&output_rm.stderr).unwrap();
     }

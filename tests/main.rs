@@ -72,7 +72,7 @@ fn given_srcfolder_and_image_when_erase_then_success() -> Result<(), Box<dyn std
     let src = "tests/folders/erase";
     let image = "tests/output/image.dmg";
     let expected = format!("created: {}/{}
-removed directory '{}'
+removed {}
 ", current_path.display(), image, src);
     Command::new("mkdir")
         .args(&["-p", src])
@@ -95,7 +95,7 @@ removed directory '{}'
 fn given_folder_when_dont_exist_then_failure() -> Result<(), Box<dyn std::error::Error>> {
     //Given
     let src = "tests/folders/notexist";
-    let expected = "thread 'main' panicked at 'tests/folders/notexist doesn't exist', src/main.rs:56:9
+    let expected = "thread 'main' panicked at 'tests/folders/notexist doesn't exist', src/main.rs:57:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ";
     //When
