@@ -22,26 +22,26 @@ jobs:
           git config user.email 8457875+deild@users.noreply.github.com
       - name: Install cargo-release
         run: cargo install -q cargo-release
-      - name: Release crate
+      - name: Release sources
         run: cargo release --no-confirm ${{ github.event.inputs.levelOrVersion }}
       - name: Get Previous tag
-        id: last
-        uses: pozetroninc/github-action-get-latest-release@master
+        uses: oprypin/find-latest-tag@v1
         with:
           repository: ${{ github.repository }}
-      - name: Create Release
+          id: latest
+      - name: Publish Github Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
         with:
-          tag_name: ${{ steps.last.outputs.release }}
-          release_name: Release ${{ steps.last.outputs.release }}
+          tag_name: ${{ steps.latest.outputs.tag }}
+          release_name: Release ${{ steps.latest.outputs.tag }}
           draft: false
           prerelease: false
       - name: Build project
         run: cargo build -q --release
-      - name: Create Archive
+      - name: Create binary archive and checksum
         run: |
           tar -czvf ${ARCHIVE_NAME}.tar.gz -C $(pwd)/target/release -- ${{ github.event.repository.name }}
           shasum -a 256 ${ARCHIVE_NAME}.tar.gz > ${ARCHIVE_NAME}-sha256-checksum.txt
@@ -54,7 +54,7 @@ jobs:
           asset_path: ${{ env.ARCHIVE_NAME }}.tar.gz
           asset_name: ${{ env.ARCHIVE_NAME }}.tar.gz
           asset_content_type: application/tar+gzip
-      - name: Upload SHA256 Checksum
+      - name: Upload checksum
         id: upload-sha256
         uses: actions/upload-release-asset@v1
         with:
