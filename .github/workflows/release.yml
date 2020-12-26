@@ -45,7 +45,7 @@ jobs:
         run: |
           tar -czvf ${ARCHIVE_NAME}-${{ steps.latest.outputs.tag }}.tar.gz -C $(pwd)/target/release -- ${{ github.event.repository.name }}
           shasum -a 256 ${ARCHIVE_NAME}-${{ steps.latest.outputs.tag }}.tar.gz > ${ARCHIVE_NAME}-${{ steps.latest.outputs.tag }}-sha256-checksum.txt
-          cat ${ARCHIVE_NAME}-${{ steps.latest.outputs.tag }}-checksum.txt
+          cat ${ARCHIVE_NAME}-${{ steps.latest.outputs.tag }}-sha256-checksum.txt
       - name: Upload binary
         id: upload-binary
         uses: actions/upload-release-asset@v1
