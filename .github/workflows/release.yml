@@ -25,40 +25,38 @@ jobs:
       - name: Release sources
         run: cargo release --no-confirm ${{ github.event.inputs.levelOrVersion }}
       - name: Get Previous tag
-        uses: oprypin/find-latest-tag@v1
-        id: latest
-        with:
-          repository: ${{ github.repository }}
+        run: |
+          echo "latest=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
       - name: Publish Github Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
         with:
-          tag_name: ${{ steps.latest.outputs.tag }}
-          release_name: Release ${{ steps.latest.outputs.tag }}
+          tag_name: ${{ env.latest }}
+          release_name: Release ${{ env.latest }}
           draft: false
           prerelease: false
       - name: Build project
         run: cargo build -q --release
       - name: Create binary archive and checksum
         run: |
-          tar -czvf ${ARCHIVE_NAME}-${{ steps.latest.outputs.tag }}.tar.gz -C $(pwd)/target/release -- ${{ github.event.repository.name }}
-          shasum -a 256 ${ARCHIVE_NAME}-${{ steps.latest.outputs.tag }}.tar.gz > ${ARCHIVE_NAME}-${{ steps.latest.outputs.tag }}-sha256-checksum.txt
-          cat ${ARCHIVE_NAME}-${{ steps.latest.outputs.tag }}-sha256-checksum.txt
+          tar -czvf ${ARCHIVE_NAME}-${{ env.latest }}.tar.gz -C $(pwd)/target/release -- ${{ github.event.repository.name }}
+          shasum -a 256 ${ARCHIVE_NAME}-${{ env.latest }}.tar.gz > ${ARCHIVE_NAME}-${{ env.latest }}-sha256-checksum.txt
+          cat ${ARCHIVE_NAME}-${{ env.latest }}-sha256-checksum.txt
       - name: Upload binary
         id: upload-binary
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.ARCHIVE_NAME }}-${{ steps.latest.outputs.tag }}.tar.gz
-          asset_name: ${{ env.ARCHIVE_NAME }}-${{ steps.latest.outputs.tag }}.tar.gz
+          asset_path: ${{ env.ARCHIVE_NAME }}-${{ env.latest }}.tar.gz
+          asset_name: ${{ env.ARCHIVE_NAME }}-${{ env.latest }}.tar.gz
           asset_content_type: application/tar+gzip
       - name: Upload checksum
         id: upload-sha256
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.ARCHIVE_NAME }}-${{ steps.latest.outputs.tag }}-sha256-checksum.txt
-          asset_name: ${{ env.ARCHIVE_NAME }}-${{ steps.latest.outputs.tag }}-sha256-checksum.txt
+          asset_path: ${{ env.ARCHIVE_NAME }}-${{ env.latest }}-sha256-checksum.txt
+          asset_name: ${{ env.ARCHIVE_NAME }}-${{ env.latest }}-sha256-checksum.txt
           asset_content_type: text/plain
