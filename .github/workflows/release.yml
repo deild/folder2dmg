@@ -12,6 +12,7 @@ jobs:
     runs-on: macos-latest
     env:
       GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
+      ARCHIVE_NAME: ${{ github.event.repository.name }}-macos-${{ github.event.release.tag_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -23,8 +24,41 @@ jobs:
         run: cargo install -q cargo-release
       - name: Release crate
         run: cargo release --no-confirm ${{ github.event.inputs.levelOrVersion }}
-      - id: last
-          uses: pozetroninc/github-action-get-latest-release@master
-          with:
-            repository: ${{ github.repository }}
-      - run: echo ${{ steps.last.outputs.release }}
+      - name: Get Previous tag
+        id: last
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: ${{ github.repository }}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
+        with:
+          tag_name: ${{ steps.last.outputs.release }}
+          release_name: Release ${{ steps.last.outputs.release }}
+          draft: false
+          prerelease: false
+      - name: Build project
+        run: cargo build -q --release
+      - name: Create Archive
+        run: |
+          tar -czvf ${ARCHIVE_NAME}.tar.gz -C $(pwd)/target/release -- ${{ github.event.repository.name }}
+          shasum -a 256 ${ARCHIVE_NAME}.tar.gz > ${ARCHIVE_NAME}-sha256-checksum.txt
+          cat ${ARCHIVE_NAME}-checksum.txt
+      - name: Upload binary
+        id: upload-binary
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.ARCHIVE_NAME }}.tar.gz
+          asset_name: ${{ env.ARCHIVE_NAME }}.tar.gz
+          asset_content_type: application/tar+gzip
+      - name: Upload SHA256 Checksum
+        id: upload-sha256
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ needs.once.outputs.upload_url }}
+          asset_path: ${{ env.ARCHIVE_NAME }}-sha256-checksum.txt
+          asset_name: ${{ env.ARCHIVE_NAME }}-sha256-checksum.txt
+          asset_content_type: text/plain
