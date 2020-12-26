@@ -10,6 +10,8 @@ jobs:
   createRelease:
     name: Release
     runs-on: macos-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -19,8 +21,5 @@ jobs:
           git config user.email 8457875+deild@users.noreply.github.com
       - name: Install cargo-release
         run: cargo install -q cargo-release
-      - name: Release fordertodmg
-        env:
-          GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
-        run: |
-          cargo release --no-confirm ${{ github.event.inputs.levelOrVersion }}
+      - name: Release crate
+        run: cargo release --no-confirm ${{ github.event.inputs.levelOrVersion }}
