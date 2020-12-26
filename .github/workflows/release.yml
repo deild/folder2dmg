@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Initialize mandatory git config  
+      - name: Initialize mandatory git config
         run: |
           git config user.name tolva
           git config user.email 8457875+deild@users.noreply.github.com

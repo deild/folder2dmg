@@ -1,4 +1,4 @@
-# folder2dmg
+# folder2dmg ![CI](https://github.com/deild/folder2dmg/workflows/CI/badge.svg)
 
 Usage:
 
