@@ -1,6 +1,6 @@
+use std::env;
 // Used for writing assertions
 use std::process::Command;
-use std::env;
 
 use assert_cmd::prelude::*;
 // Add methods on commands
@@ -12,7 +12,8 @@ static PROGRAM: &str = "folder2dmg";
 //Given_Preconditions_When_StateUnderTest_Then_ExpectedBehavior
 
 #[test]
-fn when_run_with_option_help_then_display_usage_with_success() -> Result<(), Box<dyn std::error::Error>> {
+fn when_run_with_option_help_then_display_usage_with_success(
+) -> Result<(), Box<dyn std::error::Error>> {
   //Given
   let expected = "folder2dmg 0.1.5-alpha.0
 Samuel Marcaille
@@ -39,14 +40,16 @@ ARGS:
   let mut cmd = Command::cargo_bin(PROGRAM)?;
   cmd.arg("--help");
   //Then
-  cmd.assert()
+  cmd
+    .assert()
     .success()
     .stdout(predicate::str::similar(expected));
   Ok(())
 }
 
 #[test]
-fn when_run_without_options_then_display_usage_and_failure() -> Result<(), Box<dyn std::error::Error>> {
+fn when_run_without_options_then_display_usage_and_failure(
+) -> Result<(), Box<dyn std::error::Error>> {
   //Given
   let expected = "error: The following required arguments were not provided:
     <srcfolder>
@@ -59,7 +62,8 @@ For more information try --help
   //When
   let mut cmd = Command::cargo_bin(PROGRAM)?;
   //Then
-  cmd.assert()
+  cmd
+    .assert()
     .failure()
     .stderr(predicate::str::similar(expected));
   Ok(())
@@ -71,21 +75,25 @@ fn given_srcfolder_and_image_when_erase_then_success() -> Result<(), Box<dyn std
   let current_path = env::current_dir()?;
   let src = "tests/folders/erase";
   let image = "tests/output/image.dmg";
-  let expected = format!("created: {}/{}
+  let expected = format!(
+    "created: {}/{}
 removed {}
-", current_path.display(), image, src);
+",
+    current_path.display(),
+    image,
+    src
+  );
   Command::new("mkdir")
     .args(&["-p", src])
     .output()
     .expect("failed to execute mkdir");
   //When
   let mut cmd = Command::cargo_bin(PROGRAM)?;
-  cmd.arg("--erase")
-    .arg("-i").arg(image)
-    .arg(src);
+  cmd.arg("--erase").arg("-i").arg(image).arg(src);
 
   //Then
-  cmd.assert()
+  cmd
+    .assert()
     .success()
     .stdout(predicate::str::similar(expected));
   Ok(())
@@ -101,7 +109,8 @@ fn given_folder_when_dont_exist_then_failure() -> Result<(), Box<dyn std::error:
   let mut cmd = Command::cargo_bin(PROGRAM)?;
   cmd.arg(src);
   //Then
-  cmd.assert()
+  cmd
+    .assert()
     .failure()
     .stderr(predicate::str::similar(expected));
   Ok(())
