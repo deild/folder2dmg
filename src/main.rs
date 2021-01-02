@@ -12,7 +12,7 @@ mod options;
 
 fn run(matches: ArgMatches) {
   let (src_folder, image, volname, debug, erase, quiet) = init(&matches);
-  let mut _erase = erase.clone();
+  let mut _erase = erase;
   let args = build_args(src_folder, image.as_str(), volname, debug);
 
   let output = Command::new("hdiutil")

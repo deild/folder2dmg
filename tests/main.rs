@@ -90,8 +90,8 @@ removed {}
     .expect("failed to execute mkdir");
   //When
   let mut cmd = Command::cargo_bin(PROGRAM)?;
-  cmd.args(&["--quiet","--erase","-i",image,src]);
-  
+  cmd.args(&["--quiet", "--erase", "-i", image, src]);
+
   //Then
   cmd
     .assert()
