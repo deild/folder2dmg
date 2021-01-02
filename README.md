@@ -3,7 +3,7 @@
 Usage:
 
 ```bash
-folder2dmg 0.1.5
+folder2dmg 0.1.6-alpha.0
 Samuel Marcaille
 folder2dmg is a personnal helper to create image from directory
 
