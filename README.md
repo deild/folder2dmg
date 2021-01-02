@@ -14,6 +14,7 @@ FLAGS:
     -d, --debug      turn on debugging information
     -e, --erase      delete the srcfolder after created the image
     -h, --help       Prints help information
+    -q, --quiet      no output printed to stdout
     -V, --version    Prints version information
 
 OPTIONS:
@@ -21,5 +22,5 @@ OPTIONS:
     -v, --volname <volname>    the newly-created filesystem will be named volname. Use the folder name if not set
 
 ARGS:
-    <srcfolder>    the source directory, copies file-by-file the contents of source into
+    <srcfolder>    the source directory, copies file-by-file the contents of source into image
 ```
