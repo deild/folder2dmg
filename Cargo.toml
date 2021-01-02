@@ -9,6 +9,7 @@ homepage = "https://github.com/deild/folder2dmg"
 repository = "https://github.com/deild/folder2dmg"
 
 [dependencies]
+question = "0.2.2"
 
 [dependencies.clap]
 version = "2.33.0"

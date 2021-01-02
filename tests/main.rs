@@ -26,6 +26,7 @@ FLAGS:
     -d, --debug      turn on debugging information
     -e, --erase      delete the srcfolder after created the image
     -h, --help       Prints help information
+    -q, --quiet      no output printed to stdout
     -V, --version    Prints version information
 
 OPTIONS:
@@ -89,8 +90,8 @@ removed {}
     .expect("failed to execute mkdir");
   //When
   let mut cmd = Command::cargo_bin(PROGRAM)?;
-  cmd.arg("--erase").arg("-i").arg(image).arg(src);
-
+  cmd.args(&["--quiet","--erase","-i",image,src]);
+  
   //Then
   cmd
     .assert()

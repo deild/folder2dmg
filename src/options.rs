@@ -34,6 +34,12 @@ pub fn define_options() -> ArgMatches<'static> {
         .long("debug"),
     )
     .arg(
+      Arg::with_name("quiet")
+        .help("no output printed to stdout")
+        .short("q")
+        .long("quiet"),
+    )
+    .arg(
       Arg::with_name("erase")
         .help("delete the srcfolder after created the image")
         .short("e")

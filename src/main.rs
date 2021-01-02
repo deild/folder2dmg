@@ -3,6 +3,7 @@ use std::path::Path;
 use std::process::{Command, Stdio};
 
 use clap::ArgMatches;
+use question::{Answer, Question};
 
 use options::define_options;
 
@@ -10,7 +11,8 @@ mod cli;
 mod options;
 
 fn run(matches: ArgMatches) {
-  let (src_folder, image, volname, debug, erase) = init(&matches);
+  let (src_folder, image, volname, debug, erase, quiet) = init(&matches);
+  let mut _erase = erase.clone();
   let args = build_args(src_folder, image.as_str(), volname, debug);
 
   let output = Command::new("hdiutil")
@@ -24,7 +26,20 @@ fn run(matches: ArgMatches) {
   }
   io::stdout().write_all(&output.stdout).unwrap();
   io::stderr().write_all(&output.stderr).unwrap();
-  if erase && output.status.success() {
+  if !quiet && _erase {
+    let mut question = String::new();
+    question.push_str("Are you sure to delete '");
+    question.push_str(src_folder);
+    question.push_str("' ?");
+    let answer = Question::new(question.as_str())
+      .default(Answer::YES)
+      .show_defaults()
+      .confirm();
+    if answer != Answer::YES {
+      _erase = false;
+    }
+  }
+  if _erase && output.status.success() {
     let output_rm = Command::new("rm")
       .args(&["-rvf", src_folder])
       .output()
@@ -37,7 +52,7 @@ fn run(matches: ArgMatches) {
   assert!(output.status.success());
 }
 
-fn init<'a>(matches: &'a ArgMatches) -> (&'a str, String, &'a str, bool, bool) {
+fn init<'a>(matches: &'a ArgMatches) -> (&'a str, String, &'a str, bool, bool, bool) {
   let path = Path::new(matches.value_of("srcfolder").unwrap());
   chech_path(path);
   let src_folder = path.to_str().unwrap();
@@ -59,6 +74,7 @@ fn init<'a>(matches: &'a ArgMatches) -> (&'a str, String, &'a str, bool, bool) {
     volname,
     matches.is_present("debug"),
     matches.is_present("erase"),
+    matches.is_present("quiet"),
   )
 }
 
