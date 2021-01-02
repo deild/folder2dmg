@@ -15,7 +15,7 @@ static PROGRAM: &str = "folder2dmg";
 fn when_run_with_option_help_then_display_usage_with_success(
 ) -> Result<(), Box<dyn std::error::Error>> {
   //Given
-  let expected = "folder2dmg 0.1.5-alpha.0
+  let expected = "folder2dmg 0.1.5
 Samuel Marcaille
 folder2dmg is a personnal helper to create image from directory
 
