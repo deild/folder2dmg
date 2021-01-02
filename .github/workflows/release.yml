@@ -32,6 +32,10 @@ jobs:
           use-tool-cache: true
       - uses: actions-rs/cargo@v1
         with:
+          command: login
+          args: ${{ secrets.CRATES_TOKEN }}
+      - uses: actions-rs/cargo@v1
+        with:
           command: release
           args: --no-confirm ${{ github.event.inputs.levelOrVersion }}
       - name: Get Previous tag

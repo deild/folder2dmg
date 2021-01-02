@@ -1,6 +1,29 @@
-# folder2dmg ![CI](https://github.com/deild/folder2dmg/workflows/CI/badge.svg)
+# folder2dmg
+[![GITHUB: folder2dmg](https://img.shields.io/badge/GitHub-deild%2Ffolder2dmg-blue?logo=github&style=for-the-badge)](https://github.com/deild/folder2dmg/)
+[![Continuous integration](https://img.shields.io/github/workflow/status/deild/folder2dmg/Continuous%20integration/main?label=Continuous%20integration&logo=github-actions&style=for-the-badge)](https://github.com/deild/folder2dmg/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://raw.githubusercontent.com/deild/folder2dmg/main/LICENSE)
+[![crates.io](https://img.shields.io/crates/v/folder2dmg?style=for-the-badge&logo=rust)](https://crates.io/crates/folder2dmg)
 
-Usage:
+## Installation
+
+Install the **folder2dmg** binary:
+
+#### From source on [crates.io](https://crates.io/):
+
+```sh
+cargo install folder2dmg
+```
+
+### Install via Package Manager
+
+#### With [Homebrew](https://brew.sh/):
+
+```sh
+brew tap deild/tap
+brew install folder2dmg
+```
+
+## Usage:
 
 ```bash
 folder2dmg 0.1.6-alpha.0

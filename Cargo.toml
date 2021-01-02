@@ -4,25 +4,37 @@ version = "0.1.6-alpha.0"
 authors = ["Samuel Marcaille"]
 edition = "2018"
 license = "MIT"
-description = "folder2dmg is a personnal helper to create image from directory"
+description = "Folder2dmg is a personnal helper to create image from directory"
 homepage = "https://github.com/deild/folder2dmg"
 repository = "https://github.com/deild/folder2dmg"
+keywords = ["cli","macos"]
+categories = ["command-line-utilities", "os::macos-apis", "filesystem"]
+
+[features]
+default = ["http"]
+http = ["attohttpc"]
 
 [dependencies]
 question = "0.2.2"
+os_info = "3.0.1"
+urlencoding = "1.1.1"
+open = "1.4.0"
+log = { version = "0.4.11", features = ["std"] }
+which = "4.0.2"
+# Optional/http:
+attohttpc = { version = "0.16.0", optional = true, default-features = false, features = ["tls", "form"] }
+native-tls = { version = "0.2.6", optional = true }
 
 [dependencies.clap]
-version = "2.33.0"
+version = "2.33.3"
 default-features = false
-features = ["suggestions"]
+features = [ "suggestions", "color" ]
 
 [dev-dependencies]
 assert_cmd = "1.0.2"
 predicates = "1.0.5"
 
 [package.metadata.release]
-disable-publish = true
-#no-dev-version = true
 tag-message = "Release {{crate_name}} version {{version}}"
 pre-release-commit-message = "Release version {{version}}"
 pre-release-replacements = [

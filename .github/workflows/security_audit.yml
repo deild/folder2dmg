@@ -15,7 +15,7 @@ jobs:
         with:
           crate: cargo-audit
           version: latest
-          use-tool-cache: true
+          use-tool-cache: false
       - uses: actions-rs/audit-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

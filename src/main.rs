@@ -5,10 +5,8 @@ use std::process::{Command, Stdio};
 use clap::ArgMatches;
 use question::{Answer, Question};
 
-use options::define_options;
-
-mod cli;
-mod options;
+use folder2dmg::bug_report::*;
+use folder2dmg::options::*;
 
 fn run(matches: ArgMatches) {
   let (src_folder, image, volname, debug, erase, quiet) = init(&matches);
@@ -53,7 +51,15 @@ fn run(matches: ArgMatches) {
 }
 
 fn init<'a>(matches: &'a ArgMatches) -> (&'a str, String, &'a str, bool, bool, bool) {
-  let path = Path::new(matches.value_of("srcfolder").unwrap());
+  let path = Path::new(
+    matches
+      .value_of("srcfolder")
+      .expect("srcfolder is not a path"),
+  );
+  /*let path = match matches.value_of("srcfolder") {
+    Ok(value) => Path::new(value),
+    Err(e) => eprintln!("Oh noes, we don't know which era we're in! :( \n  {}", e),
+  };*/
   chech_path(path);
   let src_folder = path.to_str().unwrap();
   let folder_name = src_folder.split('/').last().unwrap();
@@ -120,5 +126,14 @@ fn build_args<'a>(
 
 fn main() {
   let matches = define_options();
-  run(matches);
+
+  match matches.subcommand() {
+    ("bug-report", Some(_)) => create(),
+    ("build", Some(sub_m)) => run(sub_m.clone()),
+    _ => {
+      eprintln!("Error: one subcommand is required");
+      println!("{}", matches.usage());
+      std::process::exit(1);
+    }
+  }
 }
